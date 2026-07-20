@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="description"
+    content="일상에서 필요한, 단순하지만 아름다운 앱을 만듭니다."
+  >
+
+  <title>Marmots Apps</title>
+
+  <style>
+    :root {
+      --background: #f5f5f7;
+      --card: rgba(255, 255, 255, 0.82);
+      --text: #1d1d1f;
+      --secondary-text: #6e6e73;
+      --border: rgba(0, 0, 0, 0.07);
+      --accent: #0071e3;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.07);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background:
+        radial-gradient(circle at 10% 0%, #e8f1ff 0, transparent 32%),
+        radial-gradient(circle at 90% 10%, #f4eaff 0, transparent 30%),
+        var(--background);
+      color: var(--text);
+      font-family:
+        -apple-system, BlinkMacSystemFont, "SF Pro Display",
+        "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    .container {
+      width: min(1100px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 0;
+    }
+
+    .brand {
+      font-size: 18px;
+      font-weight: 750;
+      letter-spacing: -0.02em;
+    }
+
+    .language-button {
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+      cursor: pointer;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    .language-button:hover {
+      background: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      max-width: 800px;
+      padding: 100px 0 80px;
+    }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      color: var(--accent);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 7vw, 76px);
+      line-height: 1.08;
+      letter-spacing: -0.055em;
+    }
+
+    .hero-description {
+      max-width: 650px;
+      margin: 26px 0 0;
+      color: var(--secondary-text);
+      font-size: clamp(19px, 2.4vw, 25px);
+      line-height: 1.5;
+      letter-spacing: -0.02em;
+    }
+
+    .apps {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      padding-bottom: 100px;
+    }
+
+    .app-card {
+      position: relative;
+      min-height: 270px;
+      padding: 34px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .app-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 24px 65px rgba(0, 0, 0, 0.1);
+    }
+
+    .app-card::after {
+      position: absolute;
+      right: -45px;
+      bottom: -65px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      content: "";
+      opacity: 0.3;
+      filter: blur(2px);
+    }
+
+    .percent::after {
+      background: linear-gradient(135deg, #5ac8fa, #007aff);
+    }
+
+    .keep::after {
+      background: linear-gradient(135deg, #ffcc00, #ff6b00);
+    }
+
+    .mixer::after {
+      background: linear-gradient(135deg, #bf5af2, #5856d6);
+    }
+
+    .wavesub::after {
+      background: linear-gradient(135deg, #64d2ff, #30d158);
+    }
+
+    .app-icon {
+      display: grid;
+      width: 54px;
+      height: 54px;
+      margin-bottom: 28px;
+      place-items: center;
+      border-radius: 15px;
+      color: #ffffff;
+      font-size: 23px;
+      font-weight: 750;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .percent .app-icon {
+      background: linear-gradient(145deg, #5ac8fa, #007aff);
+    }
+
+    .keep .app-icon {
+      background: linear-gradient(145deg, #ffd60a, #ff8a00);
+    }
+
+    .mixer .app-icon {
+      background: linear-gradient(145deg, #bf5af2, #5856d6);
+    }
+
+    .wavesub .app-icon {
+      background: linear-gradient(145deg, #64d2ff, #00a878);
+    }
+
+    .app-card h2 {
+      margin: 0 0 10px;
+      font-size: 27px;
+      line-height: 1.25;
+      letter-spacing: -0.035em;
+    }
+
+    .app-card p {
+      position: relative;
+      z-index: 1;
+      max-width: 380px;
+      margin: 0;
+      color: var(--secondary-text);
+      font-size: 17px;
+    }
+
+    .privacy-link {
+      position: relative;
+      z-index: 2;
+      display: inline-block;
+      margin-top: 22px;
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 650;
+      text-decoration: none;
+    }
+
+    .privacy-link:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      padding: 50px 0 60px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer h2 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .copyright {
+      margin: 30px 0 0;
+      color: var(--secondary-text);
+      font-size: 13px;
+    }
+
+    [data-language="en"] {
+      display: none;
+    }
+
+    body.english [data-language="ko"] {
+      display: none;
+    }
+
+    body.english [data-language="en"] {
+      display: block;
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        width: min(100% - 28px, 1100px);
+      }
+
+      .hero {
+        padding: 70px 0 55px;
+      }
+
+      .apps {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding-bottom: 70px;
+      }
+
+      .app-card {
+        min-height: 245px;
+        padding: 28px;
+        border-radius: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">Marmots Apps</div>
+
+      <button
+        class="language-button"
+        id="languageButton"
+        type="button"
+        aria-label="Change language"
+      >
+        English
+      </button>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="eyebrow">Marmots Apps</p>
+
+        <div data-language="ko">
+          <h1>단순함 속에서<br>아름다움을 찾습니다.</h1>
+
+          <p class="hero-description">
+            일상에서 필요한, 단순하지만 아름다운 앱을 만들고 싶습니다.
+          </p>
+        </div>
+
+        <div data-language="en">
+          <h1>Finding beauty<br>in simplicity.</h1>
+
+          <p class="hero-description">
+            I want to create simple, beautiful apps for everyday life.
+          </p>
+        </div>
+      </section>
+
+      <section class="apps" aria-label="Apps">
+        <article class="app-card percent">
+          <div class="app-icon">%</div>
+
+          <div data-language="ko">
+            <h2>퍼센트 계산기</h2>
+            <p>
+              할인율과 증감률을 손쉽게 계산할 수 있는 미려한 계산기 앱입니다.
+            </p>
+
+            <a
+              class="privacy-link"
+              href="percent-calculator-privacy.html"
+            >
+              개인정보 처리방침 →
+            </a>
+          </div>
+
+          <div data-language="en">
+            <h2>Percent Calculator</h2>
+            <p>
+              An elegant calculator for quickly finding discounts and
+              percentage changes.
+            </p>
+
+            <a
+              class="privacy-link"
+              href="percent-calculator-privacy.html"
+            >
+              Privacy Policy →
+            </a>
+          </div>
+        </article>
+
+        <article class="app-card keep">
+          <div class="app-icon">K</div>
+
+          <div data-language="ko">
+            <h2>킵</h2>
+            <p>
+              다시 보고 싶은 YouTube Shorts를 간편하게 즐겨찾기합니다.
+            </p>
+          </div>
+
+          <div data-language="en">
+            <h2>Keep</h2>
+            <p>
+              Easily bookmark YouTube Shorts you want to watch again.
+            </p>
+          </div>
+        </article>
+
+        <article class="app-card mixer">
+          <div class="app-icon">≋</div>
+
+          <div data-language="ko">
+            <h2>앱믹서</h2>
+            <p>
+              Mac에서 실행하는 게임과 음악 앱의 볼륨을 개별적으로
+              조절할 수 있습니다.
+            </p>
+          </div>
+
+          <div data-language="en">
+            <h2>App Mixer</h2>
+            <p>
+              Control the volume of games and music apps individually
+              on your Mac.
+            </p>
+          </div>
+        </article>
+
+        <article class="app-card wavesub">
+          <div class="app-icon">W</div>
+
+          <div data-language="ko">
+            <h2>웨이브섭</h2>
+            <p>
+              자막을 손쉽게 만들고 편집한 뒤 동영상에 인코딩할 수 있습니다.
+            </p>
+          </div>
+
+          <div data-language="en">
+            <h2>WaveSub</h2>
+            <p>
+              Easily create and edit subtitles, then encode them into
+              your videos.
+            </p>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <div data-language="ko">
+        <h2>문의</h2>
+      </div>
+
+      <div data-language="en">
+        <h2>Contact</h2>
+      </div>
+
+      <a href="mailto:marmots-05pivot@icloud.com">
+        marmots-05pivot@icloud.com
+      </a>
+
+      <p class="copyright">
+        © 2026 Marmots Apps. All rights reserved.
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    const languageButton = document.getElementById("languageButton");
+
+    languageButton.addEventListener("click", function () {
+      const isEnglish = document.body.classList.toggle("english");
+
+      document.documentElement.lang = isEnglish ? "en" : "ko";
+      languageButton.textContent = isEnglish ? "한국어" : "English";
+    });
+  </script>
+</body>
+</html>
