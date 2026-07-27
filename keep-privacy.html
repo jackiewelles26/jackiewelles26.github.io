@@ -116,7 +116,9 @@
       </p>
       <p>
         저장 링크, 썸네일, 제목, 설정값은 앱과 공유 확장 기능이 함께 사용하는 iOS 앱
-        그룹 저장 공간에 로컬로 저장되며, 개발자는 이 정보에 원격으로 접근할 수 없습니다.
+        그룹 저장 공간에 로컬로 저장됩니다. 이용자가 iCloud 링크 백업을 직접 실행한
+        경우에만 링크와 저장 순서가 이용자의 iCloud 계정에 추가로 저장되며, 개발자는
+        이 정보에 원격으로 접근할 수 없습니다.
       </p>
 
       <h3>1. 개발자가 직접 수집하는 개인정보</h3>
@@ -136,7 +138,9 @@
       </ul>
       <p>
         이 정보는 앱과 공유 확장 기능이 함께 사용하는 iOS 앱 그룹 저장 공간에
-        보관되며, 개발자는 이 정보에 원격으로 접근할 수 없습니다.
+        보관됩니다. iCloud 링크 백업에는 이용자가 저장한 링크와 저장 시각만 포함되며,
+        썸네일 이미지와 영상 파일은 포함되지 않습니다. 개발자는 로컬 보관함과 이용자의
+        iCloud 백업에 원격으로 접근할 수 없습니다.
       </p>
 
       <h3>3. 클립보드 사용</h3>
@@ -171,17 +175,25 @@
       </p>
       <p>
         <strong>Apple</strong> — 공유 메뉴, 앱 그룹 저장 공간, 붙여넣기 권한과 같은
-        iOS 시스템 기능에는 Apple의 개인정보 보호정책이 적용됩니다.<br>
+        iOS 시스템 기능에는 Apple의 개인정보 보호정책이 적용됩니다. 이용자가 iCloud
+        링크 백업을 사용하는 경우 링크와 저장 시각이 동일한 Apple 계정의 기기에서
+        복원할 수 있도록 Apple의 iCloud Key-Value Store에 저장됩니다.<br>
         Apple 개인정보 보호정책:
         <a href="https://www.apple.com/legal/privacy/">https://www.apple.com/legal/privacy/</a>
       </p>
 
-      <h3>5. 링크 내보내기와 불러오기</h3>
+      <h3>5. 링크 백업, 내보내기와 불러오기</h3>
+      <p>
+        iCloud 링크 백업은 이용자가 설정에서 직접 백업 버튼을 누른 경우에만 실행됩니다.
+        백업에는 링크와 저장 순서만 포함되며, 동일한 Apple 계정으로 로그인한 기기에서
+        이용자가 복원 버튼을 눌러 현재 보관함과 병합할 수 있습니다. 중복된 링크는
+        건너뛰며 기존 로컬 보관함을 자동으로 삭제하거나 교체하지 않습니다.
+      </p>
       <p>
         이용자가 링크 내보내기를 실행하면 iOS 공유 화면을 통해 이용자가 선택한
         앱이나 서비스로 링크 목록이 전달됩니다. 전달 이후의 정보 처리는 이용자가
-        선택한 서비스의 정책에 따르며, 개발자는 내보낸 파일이나 메모를 수신하지
-        않습니다.
+        선택한 서비스의 정책에 따르며, 개발자는 iCloud 백업, 내보낸 파일 또는 메모를
+        수신하지 않습니다.
       </p>
 
       <h3>6. 보관 기간과 삭제</h3>
@@ -189,6 +201,11 @@
         기기에 저장된 정보는 이용자가 개별 항목 또는 전체 보관함을 삭제하거나
         앱을 제거할 때까지 보관될 수 있습니다. 앱 설정의 ‘전체 삭제’를 이용하면
         저장된 링크와 로컬 썸네일을 삭제할 수 있습니다.
+      </p>
+      <p>
+        iCloud 링크 백업은 앱 설정의 ‘iCloud 백업 삭제’를 누를 때까지 이용자의
+        iCloud 계정에 남을 수 있습니다. 앱을 제거하거나 로컬 보관함을 비우는 것만으로
+        iCloud 백업이 자동 삭제되지는 않습니다.
       </p>
       <p>
         개발자는 별도의 서버에 이용자 보관함을 저장하지 않으므로 개발자에게 서버
@@ -201,7 +218,7 @@
         개발자 메일:
         <a href="mailto:marmots-05pivot@icloud.com">marmots-05pivot@icloud.com</a><br>
         지원 페이지:
-        <a href="https://jackiewelles26.github.io/keep/support">https://jackiewelles26.github.io/keep/support</a>
+        <a href="https://jackiewelles26.github.io/index.html">https://jackiewelles26.github.io/index.html</a>
       </p>
     </section>
 
@@ -220,7 +237,10 @@
       <p>
         Saved links, thumbnails, titles, and settings are stored locally in
         an iOS App Group container shared by the app and its share
-        extension. The developer has no remote access to this information.
+        extension. Only when the user manually performs an iCloud link
+        backup are the links and their saved order additionally stored in
+        the user's iCloud account, and the developer has no remote access
+        to this information.
       </p>
 
       <h3>1. Personal Information Collected Directly by the Developer</h3>
@@ -241,8 +261,10 @@
       </ul>
       <p>
         This information is stored in an iOS App Group storage space shared
-        by the app and its share extension. The developer has no remote
-        access to this information.
+        by the app and its share extension. iCloud link backups contain only
+        the links saved by the user and their save times; thumbnail images
+        and video files are not included. The developer has no remote access
+        to either the local collection or the user's iCloud backup.
       </p>
 
       <h3>3. Clipboard Use</h3>
@@ -284,18 +306,29 @@
       <p>
         <strong>Apple</strong> — iOS system features such as the share menu,
         App Group storage, and paste permissions are governed by Apple's
-        privacy policy.<br>
+        privacy policy. When the user uses iCloud link backup, links and
+        their save times are stored in Apple's iCloud Key-Value Store so
+        they can be restored on devices signed in with the same Apple
+        account.<br>
         Apple Privacy Policy:
         <a href="https://www.apple.com/legal/privacy/">https://www.apple.com/legal/privacy/</a>
       </p>
 
-      <h3>5. Exporting and Importing Links</h3>
+      <h3>5. Link Backup, Export, and Import</h3>
+      <p>
+        iCloud link backup runs only when the user manually taps the backup
+        button in settings. The backup contains only the links and their
+        saved order. On a device signed in with the same Apple account, the
+        user can tap the restore button to merge the backup with the
+        current collection. Duplicate links are skipped, and the existing
+        local collection is never automatically deleted or replaced.
+      </p>
       <p>
         When the user performs a link export, the list of links is passed
         through the iOS share sheet to the app or service the user selects.
         How the information is handled afterward is governed by the policy
         of the service the user chose. The developer does not receive the
-        exported file or any notes.
+        iCloud backup, the exported file, or any notes.
       </p>
 
       <h3>6. Retention and Deletion</h3>
@@ -304,6 +337,12 @@
         deletes individual items or the entire collection, or removes the
         app. Using "Delete All" in app settings removes saved links and
         local thumbnails.
+      </p>
+      <p>
+        The iCloud link backup may remain in the user's iCloud account
+        until the user taps "Delete iCloud Backup" in app settings.
+        Removing the app or clearing the local collection alone does not
+        automatically delete the iCloud backup.
       </p>
       <p>
         Because the developer does not store the user's collection on any
@@ -317,7 +356,7 @@
         Developer email:
         <a href="mailto:marmots-05pivot@icloud.com">marmots-05pivot@icloud.com</a><br>
         Support page:
-        <a href="https://jackiewelles26.github.io/keep/support">https://jackiewelles26.github.io/keep/support</a>
+        <a href="https://jackiewelles26.github.io/index.html">https://jackiewelles26.github.io/index.html</a>
       </p>
     </section>
   </main>
