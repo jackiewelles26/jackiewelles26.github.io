@@ -1,0 +1,1018 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="트랙패드는 자연스럽게, 마우스 휠은 익숙한 방향으로 자동 전환하는 macOS 메뉴 막대 앱 TrueScroll.">
+  <meta name="theme-color" content="#07101f">
+  <link rel="icon" type="image/png" href="assets/truescroll-icon.png">
+  <title>TrueScroll — 마우스와 트랙패드에 맞는 스크롤</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --page: #050912;
+      --page-soft: #091326;
+      --surface: rgba(255, 255, 255, 0.065);
+      --surface-strong: rgba(255, 255, 255, 0.1);
+      --line: rgba(255, 255, 255, 0.12);
+      --text: #f7f9ff;
+      --muted: #aab5c9;
+      --blue: #2788ff;
+      --blue-light: #69c6ff;
+      --green: #65d5aa;
+      --max: 1160px;
+      --radius: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 75% -5%, rgba(39, 136, 255, 0.32), transparent 31rem),
+        radial-gradient(circle at 10% 38%, rgba(28, 100, 255, 0.13), transparent 32rem),
+        linear-gradient(180deg, #060b15 0%, #081328 43%, #050912 100%);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 100;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: #fff;
+      color: #06101f;
+      transform: translateY(-160%);
+      transition: transform 160ms ease;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(5, 9, 18, 0.72);
+      -webkit-backdrop-filter: blur(24px) saturate(150%);
+      backdrop-filter: blur(24px) saturate(150%);
+    }
+
+    .nav {
+      width: min(calc(100% - 40px), var(--max));
+      min-height: 72px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      font-size: 1.05rem;
+      font-weight: 750;
+      letter-spacing: -0.02em;
+    }
+
+    .brand img {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      box-shadow: 0 8px 24px rgba(26, 117, 255, 0.34);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      color: #c7d0df;
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .nav-links a {
+      transition: color 160ms ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: #fff;
+    }
+
+    .nav-download {
+      padding: 9px 16px;
+      border-radius: 999px;
+      background: #f4f8ff;
+      color: #07101f;
+    }
+
+    main {
+      overflow: hidden;
+    }
+
+    .hero {
+      width: min(calc(100% - 40px), var(--max));
+      min-height: 760px;
+      margin: 0 auto;
+      padding: 112px 0 84px;
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(440px, 1.1fr);
+      align-items: center;
+      gap: 64px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 22px;
+      color: #a9cfff;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 16px rgba(101, 213, 170, 0.72);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 700px;
+      margin-bottom: 26px;
+      font-size: clamp(3.1rem, 6.2vw, 5.7rem);
+      line-height: 1.05;
+      letter-spacing: -0.065em;
+      text-wrap: balance;
+    }
+
+    .gradient-text {
+      background: linear-gradient(100deg, #ffffff 8%, #99d8ff 52%, #5a92ff 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-copy {
+      max-width: 600px;
+      margin-bottom: 34px;
+      color: var(--muted);
+      font-size: clamp(1.08rem, 1.8vw, 1.28rem);
+      line-height: 1.7;
+      word-break: keep-all;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .button {
+      min-height: 52px;
+      padding: 0 23px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-weight: 750;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button:focus-visible,
+    a:focus-visible {
+      outline: 3px solid rgba(105, 198, 255, 0.75);
+      outline-offset: 3px;
+    }
+
+    .button-primary {
+      background: linear-gradient(135deg, #52afff, #176cf7);
+      box-shadow: 0 16px 38px rgba(24, 111, 247, 0.34);
+    }
+
+    .button-primary:hover {
+      box-shadow: 0 20px 44px rgba(24, 111, 247, 0.45);
+    }
+
+    .button-secondary {
+      border-color: var(--line);
+      background: rgba(255, 255, 255, 0.06);
+      color: #dbe4f2;
+    }
+
+    .arrow-down {
+      width: 17px;
+      height: 17px;
+      fill: none;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 2;
+    }
+
+    .hero-meta {
+      margin: 18px 0 0;
+      color: #8491a6;
+      font-size: 0.88rem;
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 600px;
+      display: grid;
+      place-items: center;
+      isolation: isolate;
+    }
+
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      width: 540px;
+      height: 540px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(26, 140, 255, 0.3), rgba(13, 88, 255, 0.04) 58%, transparent 70%);
+      filter: blur(10px);
+      z-index: -2;
+    }
+
+    .orbit {
+      position: absolute;
+      width: min(540px, 95%);
+      aspect-ratio: 1;
+      border: 1px solid rgba(111, 193, 255, 0.19);
+      border-radius: 50%;
+      transform: rotate(-17deg);
+      z-index: -1;
+    }
+
+    .orbit::after {
+      content: "";
+      position: absolute;
+      top: 8.5%;
+      right: 12%;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #75d6ff;
+      box-shadow: 0 0 28px #2e9cff;
+    }
+
+    .app-icon {
+      width: min(390px, 72vw);
+      border-radius: 23%;
+      filter: drop-shadow(0 40px 65px rgba(0, 32, 100, 0.54));
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .mini-card {
+      position: absolute;
+      right: 0;
+      bottom: 80px;
+      width: 215px;
+      padding: 17px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 19px;
+      background: rgba(11, 24, 45, 0.7);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.36);
+      -webkit-backdrop-filter: blur(20px) saturate(145%);
+      backdrop-filter: blur(20px) saturate(145%);
+    }
+
+    .mini-card p {
+      margin: 0;
+      color: #d8e4f4;
+      font-size: 0.88rem;
+    }
+
+    .mini-card strong {
+      display: block;
+      margin-bottom: 5px;
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    .mini-card .status {
+      width: 8px;
+      height: 8px;
+      margin-right: 8px;
+      display: inline-block;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 14px rgba(101, 213, 170, 0.7);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(-1deg); }
+      50% { transform: translateY(-12px) rotate(1deg); }
+    }
+
+    .section {
+      width: min(calc(100% - 40px), var(--max));
+      margin: 0 auto;
+      padding: 118px 0;
+    }
+
+    .section-label {
+      margin-bottom: 14px;
+      color: #77bfff;
+      font-size: 0.88rem;
+      font-weight: 750;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      max-width: 760px;
+      margin-bottom: 18px;
+      font-size: clamp(2.2rem, 4.5vw, 4rem);
+      line-height: 1.12;
+      letter-spacing: -0.052em;
+      text-wrap: balance;
+      word-break: keep-all;
+    }
+
+    .section-intro {
+      max-width: 690px;
+      margin-bottom: 52px;
+      color: var(--muted);
+      font-size: 1.12rem;
+      line-height: 1.75;
+      word-break: keep-all;
+    }
+
+    .device-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .device-card {
+      min-height: 330px;
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.035));
+    }
+
+    .device-card::after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      bottom: -110px;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(43, 134, 255, 0.25), transparent 68%);
+    }
+
+    .device-name {
+      margin-bottom: 66px;
+      color: #9eb0c8;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .direction {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .direction-symbol {
+      width: 86px;
+      height: 86px;
+      flex: 0 0 auto;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: 24px;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, 0.06);
+      color: #78c8ff;
+      font-size: 2.6rem;
+      font-weight: 300;
+      line-height: 1;
+    }
+
+    .direction h3 {
+      margin-bottom: 7px;
+      font-size: 1.42rem;
+      letter-spacing: -0.03em;
+    }
+
+    .direction p {
+      margin-bottom: 0;
+      color: var(--muted);
+      word-break: keep-all;
+    }
+
+    .product-shot-wrap {
+      padding-top: 30px;
+    }
+
+    .product-shot {
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 30px;
+      background: #07101d;
+      box-shadow: 0 42px 100px rgba(0, 0, 0, 0.46);
+    }
+
+    .product-shot img {
+      width: 100%;
+      height: auto;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .feature-card {
+      min-height: 260px;
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--surface);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 38px;
+      border: 1px solid rgba(118, 196, 255, 0.2);
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      background: rgba(42, 128, 255, 0.12);
+      color: #81cdff;
+      font-size: 1.35rem;
+    }
+
+    .feature-card h3 {
+      margin-bottom: 9px;
+      font-size: 1.2rem;
+      letter-spacing: -0.025em;
+    }
+
+    .feature-card p {
+      margin-bottom: 0;
+      color: var(--muted);
+      word-break: keep-all;
+    }
+
+    .privacy-panel {
+      padding: 52px;
+      display: grid;
+      grid-template-columns: 1fr 0.85fr;
+      align-items: center;
+      gap: 52px;
+      border: 1px solid rgba(105, 198, 255, 0.16);
+      border-radius: 32px;
+      background:
+        radial-gradient(circle at 92% 8%, rgba(49, 146, 255, 0.2), transparent 24rem),
+        rgba(8, 20, 39, 0.84);
+    }
+
+    .privacy-panel h2 {
+      margin-bottom: 17px;
+      font-size: clamp(2rem, 3.9vw, 3.35rem);
+    }
+
+    .privacy-panel p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.75;
+      word-break: keep-all;
+    }
+
+    .privacy-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .privacy-list li {
+      padding: 16px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      color: #dce7f5;
+      font-weight: 650;
+    }
+
+    .check {
+      width: 23px;
+      height: 23px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(101, 213, 170, 0.16);
+      color: #76e2b9;
+      font-size: 0.78rem;
+    }
+
+    .install-grid {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 72px;
+      align-items: start;
+    }
+
+    .requirements {
+      margin: 30px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      color: #bdc8d8;
+    }
+
+    .requirements li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .requirements li::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #5ab7ff;
+      box-shadow: 0 0 10px rgba(90, 183, 255, 0.7);
+    }
+
+    .steps {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: steps;
+      display: grid;
+    }
+
+    .steps li {
+      min-height: 108px;
+      padding: 22px 0 22px 70px;
+      position: relative;
+      border-bottom: 1px solid var(--line);
+      counter-increment: steps;
+    }
+
+    .steps li:first-child {
+      border-top: 1px solid var(--line);
+    }
+
+    .steps li::before {
+      content: counter(steps, decimal-leading-zero);
+      position: absolute;
+      top: 22px;
+      left: 0;
+      color: #77bfff;
+      font-size: 0.9rem;
+      font-weight: 750;
+      letter-spacing: 0.04em;
+    }
+
+    .steps strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 1.05rem;
+    }
+
+    .steps span {
+      color: var(--muted);
+      word-break: keep-all;
+    }
+
+    .final-cta {
+      width: min(calc(100% - 40px), var(--max));
+      margin: 0 auto 44px;
+      padding: 82px 32px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: 34px;
+      text-align: center;
+      background:
+        radial-gradient(circle at 50% 110%, rgba(37, 127, 255, 0.56), transparent 34rem),
+        linear-gradient(145deg, rgba(26, 70, 140, 0.34), rgba(255, 255, 255, 0.045));
+    }
+
+    .final-cta img {
+      width: 92px;
+      margin: 0 auto 24px;
+      border-radius: 22px;
+      box-shadow: 0 18px 40px rgba(13, 87, 214, 0.36);
+    }
+
+    .final-cta h2 {
+      margin: 0 auto 14px;
+    }
+
+    .final-cta p {
+      max-width: 600px;
+      margin: 0 auto 30px;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .final-cta .button {
+      margin: 0 auto;
+    }
+
+    .site-footer {
+      width: min(calc(100% - 40px), var(--max));
+      min-height: 110px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      color: #778398;
+      font-size: 0.88rem;
+    }
+
+    .footer-brand {
+      color: #b6c1d2;
+      font-weight: 700;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        min-height: auto;
+        padding-top: 82px;
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-copy {
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .actions {
+        justify-content: center;
+      }
+
+      .hero-visual {
+        min-height: 500px;
+      }
+
+      .mini-card {
+        right: 8%;
+      }
+
+      .privacy-panel,
+      .install-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-card {
+        min-height: auto;
+      }
+
+      .feature-icon {
+        margin-bottom: 24px;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .nav {
+        width: min(calc(100% - 28px), var(--max));
+        min-height: 64px;
+      }
+
+      .nav-links > a:not(.nav-download) {
+        display: none;
+      }
+
+      .hero,
+      .section,
+      .final-cta,
+      .site-footer {
+        width: min(calc(100% - 28px), var(--max));
+      }
+
+      .hero {
+        padding: 70px 0 52px;
+        gap: 30px;
+      }
+
+      h1 {
+        font-size: clamp(2.72rem, 14vw, 4.2rem);
+      }
+
+      .hero-copy {
+        font-size: 1.03rem;
+      }
+
+      .hero-visual {
+        min-height: 390px;
+      }
+
+      .app-icon {
+        width: min(300px, 74vw);
+      }
+
+      .orbit {
+        width: min(390px, 96vw);
+      }
+
+      .mini-card {
+        right: 0;
+        bottom: 34px;
+        width: 185px;
+      }
+
+      .section {
+        padding: 82px 0;
+      }
+
+      .device-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .device-card {
+        min-height: 300px;
+        padding: 28px;
+      }
+
+      .device-name {
+        margin-bottom: 48px;
+      }
+
+      .direction-symbol {
+        width: 70px;
+        height: 70px;
+        border-radius: 20px;
+        font-size: 2.15rem;
+      }
+
+      .product-shot {
+        border-radius: 19px;
+      }
+
+      .privacy-panel {
+        padding: 34px 24px;
+      }
+
+      .install-grid {
+        gap: 42px;
+      }
+
+      .final-cta {
+        padding: 62px 22px;
+      }
+
+      .site-footer {
+        padding: 30px 0;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문으로 건너뛰기</a>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="주요 메뉴">
+      <a class="brand" href="#top" aria-label="TrueScroll 처음으로">
+        <img src="assets/truescroll-icon.png" alt="">
+        <span>TrueScroll</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features">기능</a>
+        <a href="#privacy">개인정보 보호</a>
+        <a class="nav-download" href="https://jackiewelles26.github.io/TrueScroll.app.zip">다운로드</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="content">
+    <section class="hero" id="top">
+      <div>
+        <p class="eyebrow">macOS 메뉴 막대 앱</p>
+        <h1><span class="gradient-text">마우스는 익숙하게.</span><br>트랙패드는 자연스럽게.</h1>
+        <p class="hero-copy">TrueScroll은 사용하는 입력 장치에 맞춰 스크롤 방향을 자동으로 구분합니다. 이제 설정을 매번 바꾸지 않아도 됩니다.</p>
+        <div class="actions">
+          <a class="button button-primary" href="https://jackiewelles26.github.io/TrueScroll.app.zip">
+            TrueScroll 다운로드
+            <svg class="arrow-down" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3v13m0 0 5-5m-5 5-5-5M5 21h14"></path>
+            </svg>
+          </a>
+          <a class="button button-secondary" href="#how-it-works">어떻게 작동하나요?</a>
+        </div>
+        <p class="hero-meta">버전 1.0 · macOS 14 Sonoma 이상 · Apple Silicon</p>
+      </div>
+
+      <div class="hero-visual" aria-label="TrueScroll 앱 아이콘">
+        <div class="orbit" aria-hidden="true"></div>
+        <img class="app-icon" src="assets/truescroll-icon.png" alt="파란색 배경 위 트랙패드와 마우스를 표현한 TrueScroll 아이콘">
+        <div class="mini-card">
+          <p><strong><span class="status"></span>자동 전환 작동 중</strong>메뉴 막대에서 조용히 실행됩니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="how-it-works">
+      <p class="section-label">How it works</p>
+      <h2>손에 닿는 장치에 맞는 방향</h2>
+      <p class="section-intro">macOS의 자연스러운 스크롤은 그대로 유지합니다. TrueScroll은 마우스 휠 입력만 구분해 익숙한 방향으로 바꿉니다.</p>
+
+      <div class="device-grid">
+        <article class="device-card">
+          <p class="device-name">트랙패드</p>
+          <div class="direction">
+            <div class="direction-symbol" aria-hidden="true">↕</div>
+            <div>
+              <h3>자연스러운 스크롤 유지</h3>
+              <p>콘텐츠를 직접 밀어 움직이는 macOS 방식 그대로 사용합니다.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="device-card">
+          <p class="device-name">마우스</p>
+          <div class="direction">
+            <div class="direction-symbol" aria-hidden="true">⇅</div>
+            <div>
+              <h3>휠 방향만 자동 반전</h3>
+              <p>일반 마우스에서 익숙한 스크롤 방향으로 즉시 바뀝니다.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="preview-title">
+      <p class="section-label">Simple by design</p>
+      <h2 id="preview-title">필요한 순간에만 보이는 간결한 메뉴</h2>
+      <p class="section-intro">상태 확인과 주요 옵션은 메뉴 막대 아이콘 하나에 모았습니다. 설정 창을 계속 열어둘 필요가 없습니다.</p>
+      <div class="product-shot-wrap">
+        <figure class="product-shot">
+          <img src="assets/truescroll-preview.png" alt="가상의 macOS 바탕화면에서 실행 중인 TrueScroll 메뉴 화면" loading="lazy">
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <p class="section-label">Features</p>
+      <h2>켜두면, 나머지는 자동으로</h2>
+      <p class="section-intro">입력 장치를 바꿀 때마다 시스템 설정을 찾아갈 필요 없이 스크롤 흐름을 일관되게 유지합니다.</p>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">↕</div>
+          <h3>자동 장치 구분</h3>
+          <p>트랙패드 스크롤은 그대로 통과시키고, 마우스 휠 입력만 반전합니다.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">⌁</div>
+          <h3>부드러운 휠 호환</h3>
+          <p>Logitech 등 고해상도 휠을 위한 호환 모드를 메뉴에서 켤 수 있습니다.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">◉</div>
+          <h3>로그인 시 자동 실행</h3>
+          <p>Mac을 켜면 자동으로 시작해 메뉴 막대에서 조용히 동작합니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="privacy">
+      <div class="privacy-panel">
+        <div>
+          <p class="section-label">Privacy</p>
+          <h2>스크롤 외에는 보지 않습니다</h2>
+          <p>TrueScroll은 스크롤 방향을 바꾸기 위해 손쉬운 사용 권한을 사용합니다. 키 입력, 클릭 대상, 화면 내용은 읽지 않으며 분석이나 네트워크 통신 기능도 없습니다.</p>
+        </div>
+        <ul class="privacy-list" aria-label="개인정보 보호 항목">
+          <li><span class="check" aria-hidden="true">✓</span>키보드 입력 수집 없음</li>
+          <li><span class="check" aria-hidden="true">✓</span>화면 및 파일 접근 없음</li>
+          <li><span class="check" aria-hidden="true">✓</span>분석 및 네트워크 전송 없음</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="install">
+      <div class="install-grid">
+        <div>
+          <p class="section-label">Getting started</p>
+          <h2>세 단계면 충분합니다</h2>
+          <ul class="requirements" aria-label="시스템 요구 사항">
+            <li>macOS 14 Sonoma 이상</li>
+            <li>Apple Silicon Mac</li>
+            <li>손쉬운 사용 권한 필요</li>
+          </ul>
+        </div>
+
+        <ol class="steps">
+          <li>
+            <strong>다운로드하고 응용 프로그램으로 이동</strong>
+            <span>압축을 푼 TrueScroll을 응용 프로그램 폴더로 옮깁니다.</span>
+          </li>
+          <li>
+            <strong>손쉬운 사용 권한 허용</strong>
+            <span>첫 실행 안내에 따라 시스템 설정에서 TrueScroll을 허용합니다.</span>
+          </li>
+          <li>
+            <strong>자연스러운 스크롤 켜기</strong>
+            <span>macOS 자연스러운 스크롤을 켜두면 TrueScroll이 나머지를 처리합니다.</span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="final-cta" aria-labelledby="download-title">
+      <img src="assets/truescroll-icon.png" alt="" loading="lazy">
+      <h2 id="download-title">두 장치, 하나의 자연스러운 흐름</h2>
+      <p>마우스와 트랙패드를 오갈 때 설정 대신 작업에 집중하세요.</p>
+      <a class="button button-primary" href="https://jackiewelles26.github.io/TrueScroll.app.zip">TrueScroll 다운로드</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span class="footer-brand">TrueScroll</span>
+    <span>© 2026 TrueScroll. macOS용 메뉴 막대 앱.</span>
+  </footer>
+</body>
+</html>
