@@ -173,6 +173,10 @@
       background: linear-gradient(135deg, #ff8ad4, #a3199e);
     }
 
+    .justrun::after {
+      background: linear-gradient(135deg, #c7eb28, #1e3257);
+    }
+
     .app-icon {
       display: grid;
       width: 54px;
@@ -214,6 +218,12 @@
       background: linear-gradient(145deg, #ff9ad9, #a3199e);
     }
 
+    .justrun .app-icon {
+      background: linear-gradient(145deg, #2a4474, #16243f);
+      color: #c7eb28;
+      font-size: 27px;
+    }
+
     .app-card h2 {
       margin: 0 0 10px;
       font-size: 27px;
@@ -230,18 +240,24 @@
       font-size: 17px;
     }
 
-    .privacy-link {
+    .app-links {
       position: relative;
       z-index: 2;
-      display: inline-block;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 20px;
       margin-top: 22px;
+    }
+
+    .app-link {
+      display: inline-block;
       color: var(--accent);
       font-size: 14px;
       font-weight: 650;
       text-decoration: none;
     }
 
-    .privacy-link:hover {
+    .app-link:hover {
       text-decoration: underline;
     }
 
@@ -353,12 +369,19 @@
               할인율과 증감률을 손쉽게 계산할 수 있는 미려한 계산기 앱입니다.
             </p>
 
-            <a
-              class="privacy-link"
-              href="percent-calculator-privacy.html"
-            >
-              개인정보 처리방침 →
-            </a>
+            <div class="app-links">
+              <a
+                class="app-link"
+                href="https://apps.apple.com/kr/app/%ED%8D%BC%EC%84%BC%ED%8A%B8-%EA%B3%84%EC%82%B0/id6792749853"
+                target="_blank"
+                rel="noopener"
+              >
+                App Store에서 보기 ↗
+              </a>
+              <a class="app-link" href="percent-calculator-privacy.html">
+                개인정보 처리방침 →
+              </a>
+            </div>
           </div>
 
           <div data-language="en">
@@ -368,12 +391,19 @@
               percentage changes.
             </p>
 
-            <a
-              class="privacy-link"
-              href="percent-calculator-privacy.html"
-            >
-              Privacy Policy →
-            </a>
+            <div class="app-links">
+              <a
+                class="app-link"
+                href="https://apps.apple.com/kr/app/%ED%8D%BC%EC%84%BC%ED%8A%B8-%EA%B3%84%EC%82%B0/id6792749853"
+                target="_blank"
+                rel="noopener"
+              >
+                View on the App Store ↗
+              </a>
+              <a class="app-link" href="percent-calculator-privacy.html">
+                Privacy Policy →
+              </a>
+            </div>
           </div>
         </article>
 
@@ -386,12 +416,19 @@
               다시 보고 싶은 YouTube Shorts를 간편하게 즐겨찾기합니다.
             </p>
 
-            <a
-              class="privacy-link"
-              href="keep-privacy.html"
-            >
-              개인정보 처리방침 →
-            </a>
+            <div class="app-links">
+              <a
+                class="app-link"
+                href="https://apps.apple.com/kr/app/%ED%82%B5-%EC%88%8F%ED%8F%BC-%EC%A6%90%EA%B2%A8%EC%B0%BE%EA%B8%B0/id6793166655"
+                target="_blank"
+                rel="noopener"
+              >
+                App Store에서 보기 ↗
+              </a>
+              <a class="app-link" href="keep-privacy.html">
+                개인정보 처리방침 →
+              </a>
+            </div>
           </div>
 
           <div data-language="en">
@@ -400,12 +437,19 @@
               Easily bookmark YouTube Shorts you want to watch again.
             </p>
 
-            <a
-              class="privacy-link"
-              href="keep-privacy.html"
-            >
-              Privacy Policy →
-            </a>
+            <div class="app-links">
+              <a
+                class="app-link"
+                href="https://apps.apple.com/kr/app/%ED%82%B5-%EC%88%8F%ED%8F%BC-%EC%A6%90%EA%B2%A8%EC%B0%BE%EA%B8%B0/id6793166655"
+                target="_blank"
+                rel="noopener"
+              >
+                View on the App Store ↗
+              </a>
+              <a class="app-link" href="keep-privacy.html">
+                Privacy Policy →
+              </a>
+            </div>
           </div>
         </article>
 
@@ -419,12 +463,19 @@
               조절할 수 있습니다.
             </p>
 
-            <a
-              class="privacy-link"
-              href="appmixer-privacy.html"
-            >
-              개인정보 처리방침 →
-            </a>
+            <div class="app-links">
+              <a
+                class="app-link"
+                href="https://apps.apple.com/kr/app/appmixer-%EC%95%B1-%EB%B3%84-%EB%B3%BC%EB%A5%A8-%EC%A1%B0%EC%A0%88/id6793995620?mt=12"
+                target="_blank"
+                rel="noopener"
+              >
+                App Store에서 보기 ↗
+              </a>
+              <a class="app-link" href="appmixer-privacy.html">
+                개인정보 처리방침 →
+              </a>
+            </div>
           </div>
 
           <div data-language="en">
@@ -434,12 +485,19 @@
               on your Mac.
             </p>
 
-            <a
-              class="privacy-link"
-              href="appmixer-privacy.html"
-            >
-              Privacy Policy →
-            </a>
+            <div class="app-links">
+              <a
+                class="app-link"
+                href="https://apps.apple.com/kr/app/appmixer-%EC%95%B1-%EB%B3%84-%EB%B3%BC%EB%A5%A8-%EC%A1%B0%EC%A0%88/id6793995620?mt=12"
+                target="_blank"
+                rel="noopener"
+              >
+                View on the App Store ↗
+              </a>
+              <a class="app-link" href="appmixer-privacy.html">
+                Privacy Policy →
+              </a>
+            </div>
           </div>
         </article>
 
@@ -472,12 +530,19 @@
               문서 병합 등 핵심 기능을 갖췄습니다.
             </p>
 
-            <a
-              class="privacy-link"
-              href="marmotpdf-privacy.html"
-            >
-              개인정보 처리방침 →
-            </a>
+            <div class="app-links">
+              <a
+                class="app-link"
+                href="https://apps.apple.com/kr/app/%EB%A7%88%EB%A9%8B-pdf/id6794829938"
+                target="_blank"
+                rel="noopener"
+              >
+                App Store에서 보기 ↗
+              </a>
+              <a class="app-link" href="marmotpdf-privacy.html">
+                개인정보 처리방침 →
+              </a>
+            </div>
           </div>
 
           <div data-language="en">
@@ -487,12 +552,19 @@
               features like OCR search and document merging.
             </p>
 
-            <a
-              class="privacy-link"
-              href="marmotpdf-privacy.html"
-            >
-              Privacy Policy →
-            </a>
+            <div class="app-links">
+              <a
+                class="app-link"
+                href="https://apps.apple.com/kr/app/%EB%A7%88%EB%A9%8B-pdf/id6794829938"
+                target="_blank"
+                rel="noopener"
+              >
+                View on the App Store ↗
+              </a>
+              <a class="app-link" href="marmotpdf-privacy.html">
+                Privacy Policy →
+              </a>
+            </div>
           </div>
         </article>
 
@@ -506,12 +578,19 @@
               다이내믹 아일랜드에서도 바로 확인할 수 있습니다.
             </p>
 
-            <a
-              class="privacy-link"
-              href="flowcap-privacy.html"
-            >
-              개인정보 처리방침 →
-            </a>
+            <div class="app-links">
+              <a
+                class="app-link"
+                href="https://apps.apple.com/kr/app/flowcap-%EC%8B%A4%EC%8B%9C%EA%B0%84-%EC%98%81%EC%96%B4%EC%9E%90%EB%A7%89/id6799330903"
+                target="_blank"
+                rel="noopener"
+              >
+                App Store에서 보기 ↗
+              </a>
+              <a class="app-link" href="flowcap-privacy.html">
+                개인정보 처리방침 →
+              </a>
+            </div>
           </div>
 
           <div data-language="en">
@@ -521,12 +600,19 @@
               captions — right in the Dynamic Island.
             </p>
 
-            <a
-              class="privacy-link"
-              href="flowcap-privacy.html"
-            >
-              Privacy Policy →
-            </a>
+            <div class="app-links">
+              <a
+                class="app-link"
+                href="https://apps.apple.com/kr/app/flowcap-%EC%8B%A4%EC%8B%9C%EA%B0%84-%EC%98%81%EC%96%B4%EC%9E%90%EB%A7%89/id6799330903"
+                target="_blank"
+                rel="noopener"
+              >
+                View on the App Store ↗
+              </a>
+              <a class="app-link" href="flowcap-privacy.html">
+                Privacy Policy →
+              </a>
+            </div>
           </div>
         </article>
 
@@ -540,12 +626,19 @@
               되돌리는 손짓을 더했습니다.
             </p>
 
-            <a
-              class="privacy-link"
-              href="marmot-keyboard-privacy.html"
-            >
-              개인정보 처리방침 →
-            </a>
+            <div class="app-links">
+              <a
+                class="app-link"
+                href="https://apps.apple.com/kr/app/%EB%A7%88%EB%A9%8B-%ED%82%A4%EB%B3%B4%EB%93%9C/id6800681755"
+                target="_blank"
+                rel="noopener"
+              >
+                App Store에서 보기 ↗
+              </a>
+              <a class="app-link" href="marmot-keyboard-privacy.html">
+                개인정보 처리방침 →
+              </a>
+            </div>
           </div>
 
           <div data-language="en">
@@ -555,12 +648,51 @@
               key to move the cursor, swipe back to restore what you deleted.
             </p>
 
-            <a
-              class="privacy-link"
-              href="marmot-keyboard-privacy.html"
-            >
-              Privacy Policy →
-            </a>
+            <div class="app-links">
+              <a
+                class="app-link"
+                href="https://apps.apple.com/kr/app/%EB%A7%88%EB%A9%8B-%ED%82%A4%EB%B3%B4%EB%93%9C/id6800681755"
+                target="_blank"
+                rel="noopener"
+              >
+                View on the App Store ↗
+              </a>
+              <a class="app-link" href="marmot-keyboard-privacy.html">
+                Privacy Policy →
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="app-card justrun">
+          <div class="app-icon">↻</div>
+
+          <div data-language="ko">
+            <h2>단지런</h2>
+            <p>
+              아파트 단지나 공원을 걸으면 바퀴 수를 자동으로 세어 주는
+              Apple Watch 산책 앱입니다.
+            </p>
+
+            <div class="app-links">
+              <a class="app-link" href="justrun-privacy.html">
+                개인정보 처리방침 →
+              </a>
+            </div>
+          </div>
+
+          <div data-language="en">
+            <h2>JustRun</h2>
+            <p>
+              An Apple Watch walking app that automatically counts your
+              laps around an apartment complex or park.
+            </p>
+
+            <div class="app-links">
+              <a class="app-link" href="justrun-privacy.html">
+                Privacy Policy →
+              </a>
+            </div>
           </div>
         </article>
       </section>
